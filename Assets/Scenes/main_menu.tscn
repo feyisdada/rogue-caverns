@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8gyjld26tqwd"]
+
+[ext_resource type="Script" path="res://Assets/Scenes/main_menu.gd" id="1_odsji"]
+[ext_resource type="Texture2D" uid="uid://cw0ppyx7ieemy" path="res://Assets/Sprites/game-background.png" id="2_k4i68"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_odsji")
+
+[node name="Background" type="TextureRect" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_k4i68")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -66.5
+offset_right = 100.0
+offset_bottom = 66.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+alignment = 1
+
+[node name="rouge_caverns" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 25)
+layout_mode = 2
+text = "ROGUE CAVERNS"
+horizontal_alignment = 1
+
+[node name="start_game" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "Start Game"
+
+[node name="quit_game" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "Quit Game"
+
+[connection signal="pressed" from="VBoxContainer/start_game" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="VBoxContainer/quit_game" to="." method="_on_quit_game_pressed"]

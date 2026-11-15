@@ -1,0 +1,106 @@
+[gd_scene load_steps=13 format=3 uid="uid://bsetg0yp712yy"]
+
+[ext_resource type="Script" path="res://Assets/Scenes/Areas/pausing.gd" id="1_cm4bs"]
+[ext_resource type="PackedScene" uid="uid://dwl1rr35sa3g0" path="res://Assets/Scenes/player.tscn" id="2_b8m5m"]
+[ext_resource type="Texture2D" uid="uid://cw0ppyx7ieemy" path="res://Assets/Sprites/game-background.png" id="2_olu0u"]
+[ext_resource type="PackedScene" uid="uid://nxuycn0anv4s" path="res://Assets/Scenes/pause_menu.tscn" id="3_oeydl"]
+[ext_resource type="PackedScene" uid="uid://cpsmfkjhnih3i" path="res://Assets/Scenes/Coin.tscn" id="5_08n1i"]
+[ext_resource type="Script" path="res://Assets/Scenes/Areas/height_label.gd" id="6_8wdfe"]
+[ext_resource type="Script" path="res://Assets/Scenes/Areas/hud.gd" id="6_an7mc"]
+[ext_resource type="PackedScene" uid="uid://c4ub28dvwmnrh" path="res://Assets/Scenes/Platforms/PlatformTile.tscn" id="7_3w6e3"]
+[ext_resource type="Script" path="res://Assets/Scenes/Areas/best_label.gd" id="7_q0swe"]
+[ext_resource type="Script" path="res://Assets/Scenes/Areas/level_generator.gd" id="8_0d0pd"]
+[ext_resource type="Script" path="res://Assets/Scenes/Areas/dying_label.gd" id="8_172fk"]
+[ext_resource type="PackedScene" uid="uid://cn48qbg08hv2j" path="res://Assets/Scenes/Walls.tscn" id="9_0m6o1"]
+
+[node name="Area1" type="Node2D" groups=["Player", "player"]]
+process_mode = 3
+script = ExtResource("1_cm4bs")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(1, 0.3)
+motion_mirroring = Vector2(640, 360)
+
+[node name="Game-background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+visible = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_olu0u")
+
+[node name="TextureRect" type="TextureRect" parent="ParallaxBackground/ParallaxLayer"]
+custom_minimum_size = Vector2(2000, 5000)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -500.0
+offset_top = -1500.0
+offset_right = 1500.0
+offset_bottom = 3500.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_olu0u")
+stretch_mode = 1
+
+[node name="Player" parent="." instance=ExtResource("2_b8m5m")]
+jump_power = 10.0
+
+[node name="PauseMenu" parent="." instance=ExtResource("3_oeydl")]
+visible = false
+z_index = 7
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("6_an7mc")
+
+[node name="CoinsLabel" type="Label" parent="HUD"]
+offset_top = 15.0
+offset_right = 67.0
+offset_bottom = 38.0
+text = "COINS: 0"
+
+[node name="HeightLabel" type="Label" parent="HUD"]
+offset_right = 69.0
+offset_bottom = 23.0
+text = "HEIGHT: 0m"
+script = ExtResource("6_8wdfe")
+
+[node name="BestLabel" type="Label" parent="HUD"]
+offset_top = 30.0
+offset_right = 71.0
+offset_bottom = 53.0
+text = "BEST: 0m"
+script = ExtResource("7_q0swe")
+
+[node name="NewRecordLabel" type="Label" parent="HUD" groups=["new_record_label"]]
+visible = false
+offset_top = 45.0
+offset_right = 110.0
+offset_bottom = 68.0
+text = "NEW RECORD!"
+
+[node name="DyingLabel" type="Label" parent="HUD" groups=["dying_label"]]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -13.5
+offset_right = 40.0
+offset_bottom = 13.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "YOU DIED!"
+horizontal_alignment = 1
+script = ExtResource("8_172fk")
+
+[node name="LevelGenerator" type="Node2D" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("8_0d0pd")
+player = NodePath("../Player")
+platform_tile_scene = ExtResource("7_3w6e3")
+coin_scene = ExtResource("5_08n1i")
+
+[node name="Walls" parent="." instance=ExtResource("9_0m6o1")]
+position = Vector2(58, 296)
